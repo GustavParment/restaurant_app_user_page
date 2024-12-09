@@ -1,8 +1,9 @@
 "use client";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { apiService } from "@/service/apiService";
 
-export default function Home() {
+export default function page() {
   const [user, setUser] = useState({ username: "", password: "" });
   const [errorResponse, setErrorResponse] = useState<string>("");
   const router = useRouter();
@@ -20,21 +21,8 @@ export default function Home() {
     }
 
     try {
-      const response = await fetch("https://localhost:8443/api/v1/auth/login", {
-        method: "POST",
-        body: new URLSearchParams(user),
-        credentials: "include",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      });
+      const data = await apiService.post("/auth/login", user);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        setErrorResponse(errorText || "An unexpected error occurred.");
-        return;
-      }
-
-      const data = await response.json();
-      localStorage.setItem("accessToken", data.accessToken);
       router.push("/pages/dashboard");
     } catch (error) {
       setErrorResponse("A network error occurred. Please try again.");
@@ -45,8 +33,8 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex min-h-screen items-center justify-center bg-[url('/images/restaurant-bg-2.jpg')] bg-cover">
-        <div className="relative flex flex-col rounded-xl bg-gray-950 bg-opacity-50 backdrop-blur-md p-8 shadow-lg max-w-sm w-full">
+      <div className="flex min-h-screen items-center justify-center bg-[url('/images/restaurant-bg-2.jpg')] bg-cover ">
+        <div className="relative flex flex-col rounded-xl bg-gray-950 bg-opacity-50 p-8 backdrop-blur-sm shadow-lg max-w-sm w-full">
           <img className="w-80" src="/images/platedate.png" alt="" />
           <p className="mt-1 text-sm text-gray-300 flex justify-center">
             Enter your details to login
