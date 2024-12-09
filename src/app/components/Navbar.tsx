@@ -2,17 +2,34 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { apiService } from "@/service/apiService";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const router = useRouter();
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLogout = async () => {
+    try {
+      await apiService.post("/auth/logout");
+     console.log("Successfully logout!")
+     router.push("/")
+    } catch (error) {
+      console.log("Error logging out: ", error);
+    }
+  };
+
   return (
-    <nav className="bg-white shadow-md fixed top-0 left-0 w-full z-10">
+    <nav className="bg-pink-800 shadow-md fixed top-0 left-0 w-full z-10">
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
-        <Link href="/pages/dashboard" className="text-xl font-bold text-gray-800">
+        <Link
+          href="/pages/dashboard"
+          className="text-xl font-bold text-gray-800"
+        >
           <img src="/images/platedate2.png" alt="" className="w-40 h-20" />
         </Link>
         <button
@@ -36,30 +53,47 @@ const Navbar = () => {
         </button>
 
         <div className="hidden md:flex space-x-6">
-          <Link href="/" className="text-gray-800 hover:text-blue-500">
+          <Link
+            href="/pages/dashboard"
+            className="text-gray-800 hover:text-blue-500"
+          >
             Home
           </Link>
-          <Link href="/about" className="text-gray-800 hover:text-blue-500">
-            About
+          <Link
+            href="/pages/profile"
+            className="text-gray-800 hover:text-blue-500"
+          >
+            Profile
           </Link>
-          <Link href="/services" className="text-gray-800 hover:text-blue-500">
-            Services
+          <Link
+            href="/pages/chat"
+            className="text-gray-800 hover:text-blue-500"
+          >
+            Chat
           </Link>
-          <Link href="/contact" className="text-gray-800 hover:text-blue-500">
-            Contact
+          <Link
+            href="/pages/settings"
+            className="text-gray-800 hover:text-blue-500"
+          >
+            Settings
           </Link>
+          <button onClick={handleLogout} className="text-gray-800 hover:text-blue-500">Log Out</button>
         </div>
       </div>
 
+      {/*Mobil meny*/}
       <div
         id="mobile-menu"
         className={`fixed top-0 left-0 h-full w-1/2 bg-white shadow-lg transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out`}
+        } transition-transform duration-1000 ease-in-out`}
       >
         <div className="flex items-center justify-between px-4 py-3">
-          <Link href="/" className="text-xl font-bold text-gray-800">
-            PlateDate
+          <Link
+            href="/pages/dashboard"
+            className="text-xl font-bold text-gray-800"
+          >
+            <img src="/images/platedate2.png" alt="" className="w-40 h-20" />
           </Link>
           <button
             onClick={toggleMenu}
@@ -82,17 +116,34 @@ const Navbar = () => {
           </button>
         </div>
         <div className="flex flex-col space-y-6 px-4 py-8">
-          <Link href="/" className="text-gray-800 hover:text-blue-500">
+          <Link
+            href="/pages/dashboard"
+            className="text-gray-800 hover:text-blue-500"
+          >
             Home
           </Link>
-          <Link href="/about" className="text-gray-800 hover:text-blue-500">
-            About
+          <Link
+            href="/pages/profile"
+            className="text-gray-800 hover:text-blue-500"
+          >
+            Profile
           </Link>
-          <Link href="/services" className="text-gray-800 hover:text-blue-500">
-            Services
+          <Link
+            href="/pages/chat"
+            className="text-gray-800 hover:text-blue-500"
+          >
+            Chat
           </Link>
-          <Link href="/contact" className="text-gray-800 hover:text-blue-500">
-            Contact
+          <Link
+            href="/pages/settings"
+            className="text-gray-800 hover:text-blue-500"
+          >
+            Settings
+          </Link>
+          <Link href="">
+            <button onClick={handleLogout} className="text-gray-800 hover:text-blue-500">
+              Log Out
+            </button>
           </Link>
         </div>
       </div>

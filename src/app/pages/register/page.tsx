@@ -60,7 +60,7 @@ const RegistrationPage = () => {
       className="flex min-h-screen items-center justify-center 
      bg-[url('/images/restaurant-bg-3.jpg')] bg-cover"
     >
-      <div className="relative flex flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none bg-blue-950 bg-opacity-50 backdrop-blur-md p-6">
+      <div className="relative flex flex-col rounded-xl bg-gray-950 bg-opacity-50 text-gray-700 shadow-none backdrop-blur-md p-6">
         <h4 className="block font-sans text-2xl font-semibold leading-snug tracking-normal text-white antialiased">
           Sign Up
         </h4>

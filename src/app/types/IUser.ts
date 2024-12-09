@@ -7,6 +7,13 @@ export interface IUser {
     lastName?: string;
     birthday?: string;
     role?: string;
-    profile?: [];
-    matchListId?: [];
+    profile?: UserProfile[];
+    matchListId?: string[];
+}
+
+export interface UserProfile {
+    avatar: string,
+    bio: string,
+    favoriteFood: string[]
+    hobbies: string[]
 }
