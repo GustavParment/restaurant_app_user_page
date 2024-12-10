@@ -13,9 +13,9 @@ const Page = () => {
 
       {/* Main Content */}
       <div className="flex-grow pt-20">
-        
+        <UserCard/>
         <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold text-black">CHAT PAGE</h1>
+          <h1 className="text-2xl font-bold text-black">Main Content Goes Here</h1>
           <p className="text-black">Add your content in this section.</p>
         </div>
       </div>

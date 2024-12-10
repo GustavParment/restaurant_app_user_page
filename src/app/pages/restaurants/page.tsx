@@ -4,6 +4,7 @@ import React from "react";
 import Navbar from "@/app/components/Navbar";
 import BottomBar from "@/app/components/BottomBar";
 import UserCard from "@/app/components/UserCard";
+import RestaurantGrid from "@/app/components/RestaurantGrid";
 
 const Page = () => {
   return (
@@ -15,8 +16,7 @@ const Page = () => {
       <div className="flex-grow pt-20">
         
         <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold text-black">CHAT PAGE</h1>
-          <p className="text-black">Add your content in this section.</p>
+      <RestaurantGrid/>
         </div>
       </div>
 

@@ -7,7 +7,7 @@ const SwipeCard = (user: IUser) => {
     }
   return (
     <div>
-      
+      hej
     </div>
   )
 }
