@@ -1,68 +1,87 @@
-import React from "react";
+import { apiService } from "@/service/apiService";
+import React, { useEffect, useState } from "react";
+import { IUser } from "../types/IUser";
 
 const ProfileSection = () => {
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        const response = await apiService.get("/user/all");
+        setUsers(response); // Response-data är redan ett IUser[]
+        console.log("DEBUG USERDATA: ", response);
+      } catch (error) {
+        console.log("Error while fetching: ", error);
+        setError("Failed to fetch users. Please try again");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  if (loading) {
+    return <div>Loading....</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
   return (
-    <>
-      <section className="pt-16 bg-blueGray-50">
-        <div className="w-full lg:w-4/12 px-4 mx-auto">
-          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
-            <div className="px-6">
-              <div className="flex flex-wrap justify-center">
-                <div className="w-full px-4 flex justify-center">
-                  <div className="relative">
-                    <img
-                      src="../images/alexander.jpg"
-                      className="mt-10 w-40 h-40 rounded-full object-cover"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className="w-full px-4 text-center mt-20">
-                  <div className="flex justify-center py-4 lg:pt-4 pt-8">
-                    <div className="mr-4 p-3 text-center">
-                      <span className="text-xl font-bold block uppercase tracking-wide text-black">
-                        22
-                      </span>
-                      <span className="text-sm text-black">Friends</span>
-                    </div>
-                    <div className="mr-4 p-3 text-center">
-                      <span className="text-xl font-bold block uppercase tracking-wide text-black">
-                        10
-                      </span>
-                      <span className="text-sm text-black">Photos</span>
-                    </div>
-                    <div className="lg:mr-4 p-3 text-center">
-                      <span className="text-xl font-bold block uppercase tracking-wide text-black">
-                        89
-                      </span>
-                      <span className="text-sm text-black">Comments</span>
+    <section className="pt-16 bg-blueGray-50">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
+        {users.map((user) => {
+          const userAvatar =
+            user.profile && user.profile.length > 0
+              ? user.profile[0].avatar // Hämta den första profilens avatar
+              : "../images/default-avatar.jpg"; // Fallback-bild om ingen profil finns
+
+          return (
+            <div
+              key={user.id} // Använd `user.id` som unikt nyckelvärde
+              className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg"
+            >
+              <div className="px-6">
+                <div className="flex flex-wrap justify-center">
+                  <div className="w-full px-4 flex justify-center">
+                    <div className="relative">
+                      <img
+                        src={userAvatar}
+                        className="mt-10 w-40 h-40 rounded-full object-cover"
+                        alt={`${user.firstName || "User"}'s avatar`}
+                      />
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="text-center mt-12">
-                <h3 className="text-xl font-semibold leading-normal mb-2 text-black">
-                  Maskin Maskinsson
-                </h3>
-                <div className="text-sm leading-normal mt-0 mb-2 text-black font-bold uppercase">
-                  <i className="fas fa-map-marker-alt mr-2 text-lg text-black"></i>
-                  Stockholm, sweden
-                </div>
-                <div className="mb-2 text-black mt-10">
-                  <i className="fas fa-briefcase mr-2 text-lg text-black"></i>
-                  Solution Manager - Creative Tim Officer
-                </div>
-                <div className="mb-2 text-black">
-                  <i className="fas fa-university mr-2 text-lg text-black"></i>
-                  University of Computer Science
+                <div className="text-center mt-12">
+                  <h3 className="text-xl font-semibold leading-normal mb-2 text-black">
+                    {user.firstName || "First Name"} {user.lastName || "Last Name"}
+                  </h3>
+                  <div className="text-sm leading-normal mt-0 mb-2 text-black font-bold uppercase">
+                    <i className="fas fa-map-marker-alt mr-2 text-lg text-black"></i>
+                    {user.username || "Unknown Username"}
+                  </div>
+                  <div className="mb-2 text-black mt-10">
+                    <i className="fas fa-briefcase mr-2 text-lg text-black"></i>
+                    {user.role || "No Role Provided"}
+                  </div>
+                  <div className="mb-2 text-black">
+                    <i className="fas fa-university mr-2 text-lg text-black"></i>
+                    {user.education || "No Education Info"}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <footer className="relative  pt-8 pb-6 mt-8"></footer>
-      </section>
-    </>
+          );
+        })}
+      </div>
+    </section>
   );
 };
 
