@@ -1,18 +1,39 @@
 import { apiService } from "@/service/apiService";
 import React, { useEffect, useState } from "react";
 import { IUser } from "../types/IUser";
+import { FaHeart, FaTimes } from "react-icons/fa";
+import { FaPhotoFilm } from "react-icons/fa6";
+import { RiRestaurant2Fill, RiRestaurantFill } from "react-icons/ri";
+import { GrRestaurant } from "react-icons/gr";
+import { MdRestaurant, MdRestaurantMenu } from "react-icons/md";
 
 const ProfileSection = () => {
-  const [users, setUsers] = useState<IUser[]>([]);
+  const [user, setUser] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const calculateAge = (birthday: string) => {
+    const birthDate = new Date(birthday);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+
+    if (
+      monthDifference < 0 ||
+      (monthDifference === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+    return age;
+  };
+
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchUsers = async (index: number) => {
       try {
         setLoading(true);
-        const response = await apiService.get("/user/all");
-        setUsers(response); // Response-data är redan ett IUser[]
+        const response = await apiService.get(`/user/browse?index=${index}`);
+        setUser(Array.isArray(response) ? response : [response]);
         console.log("DEBUG USERDATA: ", response);
       } catch (error) {
         console.log("Error while fetching: ", error);
@@ -22,7 +43,7 @@ const ProfileSection = () => {
       }
     };
 
-    fetchUsers();
+    fetchUsers(1);
   }, []);
 
   if (loading) {
@@ -35,45 +56,57 @@ const ProfileSection = () => {
 
   return (
     <section className="pt-16 bg-blueGray-50">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
-        {users.map((user) => {
+      <div className="flex">
+        {user.map((user) => {
           const userAvatar =
             user.profile && user.profile.length > 0
-              ? user.profile[0].avatar // Hämta den första profilens avatar
-              : "../images/default-avatar.jpg"; // Fallback-bild om ingen profil finns
+              ? user.profile[0].avatar
+              : "../images/default-avatar.jpg";
+
+          const userHobbies =
+            user.profile && user.profile.length > 0
+              ? user.profile[0].hobbies
+              : [];
+
+          const userFood =
+            user.profile && user.profile.length > 0
+              ? user.profile[0].favoriteFood
+              : [];
+
+          const getUserAge = user.birthday
+            ? calculateAge(user.birthday)
+            : "UNKNOWN";
 
           return (
             <div
-              key={user.id} // Använd `user.id` som unikt nyckelvärde
-              className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg"
+              key={user.id}
+              className="relative flex flex-col min-w-0 break-words mb-6 rounded-lg"
             >
-              <div className="px-6">
-                <div className="flex flex-wrap justify-center">
-                  <div className="w-full px-4 flex justify-center">
-                    <div className="relative">
-                      <img
-                        src={userAvatar}
-                        className="mt-10 w-40 h-40 rounded-full object-cover"
-                        alt={`${user.firstName || "User"}'s avatar`}
-                      />
+              <img
+                src="/images/alexander.jpg" ///{userAvatar}
+                className="mt-10  object-cover rounded-xl"
+                alt={`${user.firstName || "User"}'s avatar`}
+              />
+              <div className="relative">
+                    <div className="absolute bottom-10 text-white">
+                      <p className="text-3xl px-4 font-bold">
+                        {user.firstName} {user.lastName}{" "}
+                        <span className="font-normal">{getUserAge}</span>
+                      </p>
                     </div>
-                  </div>
-                </div>
-                <div className="text-center mt-12">
-                  <h3 className="text-xl font-semibold leading-normal mb-2 text-black">
-                    {user.firstName || "First Name"} {user.lastName || "Last Name"}
-                  </h3>
-                  <div className="text-sm leading-normal mt-0 mb-2 text-black font-bold uppercase">
-                    <i className="fas fa-map-marker-alt mr-2 text-lg text-black"></i>
-                    {user.username || "Unknown Username"}
-                  </div>
-                  <div className="mb-2 text-black mt-10">
-                    <i className="fas fa-briefcase mr-2 text-lg text-black"></i>
-                    {user.role || "No Role Provided"}
-                  </div>
-                  <div className="mb-2 text-black">
-                    <i className="fas fa-university mr-2 text-lg text-black"></i>
-                    {user.education || "No Education Info"}
+              <div className="px-6">
+               
+                  <div className="flex absolute bottom-0 px-10 -m-10 justify-evenly w-full b ">
+                    <button className="text-red-400 text-5xl bg-white p-3 rounded-full shadow-md dark:shadow-gray-500">
+                      <MdRestaurantMenu />
+                    </button>
+
+                    <button className="text-blue-500 text-5xl bg-white p-3 rounded-full shadow-md dark:shadow-gray-500">
+                      <FaPhotoFilm />
+                    </button>
+                    <button className="text-green-500 text-5xl bg-white p-3 rounded-full shadow-md dark:shadow-gray-500">
+                      <GrRestaurant />
+                    </button>
                   </div>
                 </div>
               </div>

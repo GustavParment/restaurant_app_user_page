@@ -9,7 +9,7 @@ const BottomBar = () => {
   const router = useRouter();
 
   return (
-    <div className="fixed bottom-0 left-0 w-full bg-purple-500 bg-gradient-to-t from-red-400 p-6">
+    <div className="fixed bottom-0 left-0 w-full bg-purple-950 bg-gradient-to-t from-red-400 p-6">
       <div className="flex justify-between px-10">
         <MdChat
           className="text-white text-2xl hover:cursor-pointer"

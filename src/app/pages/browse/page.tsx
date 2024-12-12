@@ -4,6 +4,7 @@ import React from "react";
 import Navbar from "@/app/components/Navbar";
 import BottomBar from "@/app/components/BottomBar";
 import UserCard from "@/app/components/UserCard";
+import EditProfileForm from "@/app/components/EditProfileForm";
 
 const Page = () => {
   return (
@@ -14,11 +15,8 @@ const Page = () => {
       {/* Main Content */}
       <div className="flex-grow pt-20">
         <UserCard/>
-        <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold text-black">Main Content Goes Here</h1>
-          <p className="text-black">Add your content in this section.</p>
-        </div>
-      </div>
+      
+    </div>
 
       {/* Bottom Bar */}
       <BottomBar />

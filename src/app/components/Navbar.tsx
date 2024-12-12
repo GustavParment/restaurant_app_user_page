@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-purple-500 bg-gradient-to-t from-red-400 text-white shadow-md z-10">
+    <nav className="fixed top-0 left-0 w-full bg-purple-950 bg-gradient-to-t from-red-400 text-white shadow-md z-10">
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
         <Link href="/pages/dashboard">
           <img src="/images/platedate2.png" alt="Logo" className="w-40 h-20" />
