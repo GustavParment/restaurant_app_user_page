@@ -28,7 +28,7 @@ api.interceptors.response.use(
 );
 
 export const apiService = {
-  async get(url: string, headers = {}) {
+  async get<T>(url: string)  {
     try {
       const response = await api.get(url);
       return response.data;

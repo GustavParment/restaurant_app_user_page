@@ -4,24 +4,25 @@ import { useRouter } from "next/navigation";
 import { apiService } from "@/service/apiService";
 
 export default function page() {
-  const [user, setUser] = useState({ username: "", password: "" });
+  const [authRequest, setAuthRequest] = useState({ username: "", password: "" });
+  
   const [errorResponse, setErrorResponse] = useState<string>("");
   const router = useRouter();
 
   const handleUserChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setUser((prevData) => ({ ...prevData, [name]: value }));
+    setAuthRequest((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    if (!user.username || !user.password) {
+    if (!authRequest.username || !authRequest.password) {
       setErrorResponse("Username and password are required");
       return;
     }
 
     try {
-      const data = await apiService.post("/auth/login", user);
+      const data = await apiService.post("/auth/login", authRequest);
       console.log("LOGIN DATA DEBUG------:",data )
       router.push("/pages/dashboard");
     } catch (error) {
