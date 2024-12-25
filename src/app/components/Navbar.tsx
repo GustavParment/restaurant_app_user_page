@@ -49,11 +49,9 @@ const Navbar = () => {
             Home
           </Link>
           <Link href="/pages/profile" className="hover:text-blue-500">
-            Profile
+            Help
           </Link>
-          <Link href="/pages/settings" className="hover:text-blue-500">
-            Settings
-          </Link>
+          
           <button onClick={handleLogout} className="hover:text-blue-500">
             Log Out
           </button>
@@ -92,11 +90,9 @@ const Navbar = () => {
             Home
           </Link>
           <Link href="/pages/profile" className="text-gray-800 hover:text-blue-500">
-            Profile
+            Help?
           </Link>
-          <Link href="/pages/settings" className="text-gray-800 hover:text-blue-500">
-            Settings
-          </Link>
+      
           <Link href="">
             <button
               onClick={handleLogout}

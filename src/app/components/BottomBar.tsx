@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { FaHeart, FaUtensils } from "react-icons/fa";
+import { FaHeart, FaHome, FaList, FaUtensils } from "react-icons/fa";
 import { MdChat } from "react-icons/md";
 
 const BottomBar = () => {
@@ -11,13 +11,13 @@ const BottomBar = () => {
   return (
     <div className="fixed bottom-0 left-0 w-full bg-purple-950 bg-gradient-to-t from-red-400 p-6">
       <div className="flex justify-between px-10">
-        <MdChat
+        <FaList
           className="text-white text-2xl hover:cursor-pointer"
-          onClick={() => router.push("/pages/chat")}
+          onClick={() => router.push("/pages/reservations")}
         />
-        <FaHeart
+        <FaHome
           className="text-white text-2xl hover:cursor-pointer"
-          onClick={() => router.push("/pages/browse")}
+          onClick={() => router.push("/pages/dashboard")}
         />
         <FaUtensils
           className="text-white text-2xl hover:cursor-pointer"

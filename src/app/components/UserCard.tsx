@@ -16,6 +16,7 @@ const ProfileSection = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [currentUser, setCurrentUser] = useState<IUser[]>([]);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -76,18 +77,28 @@ const ProfileSection = () => {
     return <div className="text-red-500">{error}</div>;
   }
 
-  const handleStartChat = async (currentUser: { id: any; }, otherUser: { id: any; }) => {
+  const handleStartChat = async (currentUser: IUser, otherUser: IUser) => {
     try {
         const chat = {
             ownerId: currentUser.id,
-            engagedUserId: otherUser.id
+            engagedUserId: otherUser.id,
+            message: []
         };
-        const session = await apiService.post(`chat/new-session`, chat);
-        router.push(`/pages/chatsession/${session.data.id}`); 
+        await apiService.post('chat/new-session', chat);
+        router.push({
+            pathname: '/pages/chatsession',
+            query: {
+                sessionId: currentUser.id.toString(),
+                otherUserId: otherUser.id.toString(),
+                otherUserName: `${otherUser.firstName} ${otherUser.lastName}`,
+                otherUserAvatar: otherUser.profile && otherUser.profile.length > 0 ? otherUser.profile[0].avatar : "/images/default-avatar.jpg"
+            }
+        });
     } catch (error) {
         console.error("Failed to start chat session:", error);
     }
-}; // SKICKA NY CHAT DATA SOM DTO
+};
+
 
   return (
     <section className="pt-16 bg-blueGray-50">

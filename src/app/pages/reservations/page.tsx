@@ -5,6 +5,7 @@ import Navbar from "@/app/components/Navbar";
 import BottomBar from "@/app/components/BottomBar";
 import UserCard from "@/app/components/UserCard";
 import EditProfileForm from "@/app/components/EditProfileForm";
+import ReservationsPage from "@/app/components/UserReservations";
 
 const Page = () => {
   return (
@@ -14,8 +15,8 @@ const Page = () => {
 
       {/* Main Content */}
       <div className="flex-grow pt-20">
-      {/*<UserCard/>*/}
-      
+    
+    <ReservationsPage/>
     </div>
 
       {/* Bottom Bar */}
