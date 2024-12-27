@@ -59,7 +59,7 @@ const ReservationsPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Your Reservations</h1>
+      <h1 className="text-2xl font-bold mb-6 mt-3">Your Reservations</h1>
       {reservationsWithRestaurantNames.length === 0 ? (
         <p>No reservations available.</p>
       ) : (
