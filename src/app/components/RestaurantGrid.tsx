@@ -6,13 +6,17 @@ import { IRestaurant } from "../types/IRestaurant";
 const ResponsiveCardList: React.FC = () => {
   const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [selectedRestaurantId, setSelectedRestaurantId] = useState<string | null>(null);
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState<
+    string | null
+  >(null);
   const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const fetchedRestaurants = await apiService.get<IRestaurant[]>("/restaurant/all");
+        const fetchedRestaurants = await apiService.get<IRestaurant[]>(
+          "/restaurant/all"
+        );
         setRestaurants(fetchedRestaurants);
       } catch (error) {
         console.error("Failed to fetch restaurants:", error);
@@ -37,17 +41,20 @@ const ResponsiveCardList: React.FC = () => {
     setModalOpen(true);
   };
 
-   const handleReservationSubmit = async (reservationData: {
+  const handleReservationSubmit = async (reservationData: {
     restaurantId: string;
     userId: string;
     reservationDate: string;
     guests: number;
   }) => {
     try {
-      const response = await apiService.post('/reservation/create', reservationData);
-      console.log('Reservation created:', response.data);
+      const response = await apiService.post(
+        "/reservation/create",
+        reservationData
+      );
+      console.log("Reservation created:", response.data);
     } catch (error) {
-      console.error('Failed to create reservation:', error);
+      console.error("Failed to create reservation:", error);
     }
   };
 
@@ -81,8 +88,6 @@ const ResponsiveCardList: React.FC = () => {
               >
                 Book
               </button>
-              
-          
             </div>
           </div>
         ))}
