@@ -23,7 +23,7 @@ export default function page() {
 
     try {
       const data = await apiService.post("/auth/login", authRequest);
-      console.log("LOGIN DATA DEBUG------:",data )
+  
       router.push("/pages/dashboard");
     } catch (error) {
       setErrorResponse("A network error occurred. Please try again.");

@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import { apiService } from "@/service/apiService";
 import ReservationComponent from "../components/ReservationComponent ";
 import { IRestaurant } from "../types/IRestaurant";
+import ConfirmationModal from "./ConfirmationModalProps";
 
-const ResponsiveCardList: React.FC = () => {
+const ResponsiveCardList = () => {
   const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [confirmationModalOpen, setConfirmationModalOpen] = useState<boolean>(false);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState<
     string | null
   >(null);
   const [userId, setUserId] = useState<string>("");
+  const [confirmationMessage, setConfirmationMessage] = useState<string>("");
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -52,9 +55,17 @@ const ResponsiveCardList: React.FC = () => {
         "/reservation/create",
         reservationData
       );
+      setConfirmationMessage("Your reservation was successfully created!");
       console.log("Reservation created:", response.data);
+      setModalOpen(false); 
+      setConfirmationModalOpen(true); 
     } catch (error) {
       console.error("Failed to create reservation:", error);
+      setConfirmationMessage(
+        "Something went wrong. Please try again later."
+      );
+      setModalOpen(false);
+      setConfirmationModalOpen(true); 
     }
   };
 
@@ -98,6 +109,11 @@ const ResponsiveCardList: React.FC = () => {
         onSubmit={handleReservationSubmit}
         restaurantId={selectedRestaurantId}
         userId={userId}
+      />
+      <ConfirmationModal
+        isOpen={confirmationModalOpen}
+        onClose={() => setConfirmationModalOpen(false)}
+        message={confirmationMessage}
       />
     </section>
   );
